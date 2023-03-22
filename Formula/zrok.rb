@@ -4,7 +4,7 @@ class Zrok < Formula
   desc "Geo-scale, next-generation sharing platform built on top of OpenZiti"
   homepage "https://zrok.io"
   url "https://github.com/openziti/zrok.git",
-    tag: "v0.3.5-rc1", revision: "505b6e65e0718d6efd1506d2aab27ec1ce5e0a40"
+    tag: "v0.3.5", revision: "917891e9b1fbe28e112ff7e399a92d60080c79e4"
   license "Apache-2.0"
   head "https://github.com/openziti/zrok.git", branch: "main"
 
@@ -12,11 +12,11 @@ class Zrok < Formula
   depends_on "node" => :build
 
   def install
-    cd dir/"ui" do
+    cd buildpath/"ui" do
       system "npm", "install", *Language::Node.local_npm_install_args
       system "npm", "run", "build"
     end
-    cd dir do
+    cd buildpath do
       ldflags = ["-X github.com/openziti/zrok/build.Version=#{version}",
                  "-X github.com/openziti/zrok/build.Hash=#{Utils.git_head}"]
       system "go", "build", *std_go_args(ldflags: ldflags), "github.com/openziti/zrok/cmd/zrok"
