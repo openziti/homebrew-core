@@ -12,11 +12,6 @@ class Zrok < Formula
   depends_on "node" => :build
 
   def install
-    ENV["GOPATH"] = buildpath
-    ENV["GO111MODULE"] = "auto"
-    dir = buildpath/"src/github.com/openziti/zrok"
-    dir.install (buildpath/"").children
-
     cd dir/"ui" do
       system "npm", "install", *Language::Node.local_npm_install_args
       system "npm", "run", "build"
