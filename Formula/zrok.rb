@@ -4,7 +4,7 @@ class Zrok < Formula
   desc "Geo-scale, next-generation sharing platform built on top of OpenZiti"
   homepage "https://zrok.io"
   url "https://github.com/openziti/zrok.git",
-    tag: "v0.3.4", revision: "03a3243694b9d3fc7af16b22c47b0de61f89b1dc"
+    tag: "v0.3.5-rc1", revision: "505b6e65e0718d6efd1506d2aab27ec1ce5e0a40"
   license "Apache-2.0"
   head "https://github.com/openziti/zrok.git", branch: "main"
 
