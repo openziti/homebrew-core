@@ -4,7 +4,7 @@ class Ziti < Formula
   url "https://github.com/openziti/ziti.git",
     tag: "v0.27.5", revision: "722181191f5852a9d2c253838bcaaaeedb7acc0a"
   license "Apache-2.0"
-  head "https://github.com/openziti/zrok.git", branch: "main"
+  head "https://github.com/openziti/ziit.git", branch: "main"
 
   depends_on "go" => :build
 
