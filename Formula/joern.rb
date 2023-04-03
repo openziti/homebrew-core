@@ -1,8 +1,9 @@
 class Joern < Formula
   desc "Open-source code analysis platform based on code property graphs"
   homepage "https://joern.io/"
-  url "https://github.com/joernio/joern/archive/refs/tags/v1.1.1522.tar.gz"
-  sha256 "bd8d2281ad4c990ce48e7f742aaae102f175a00c01138677d876be4cbd63b4fe"
+  # joern should only be updated every 10 releases on multiples of 10
+  url "https://github.com/joernio/joern/archive/refs/tags/v1.1.1550.tar.gz"
+  sha256 "7aa48b4cd62f0ec15b24f30045e1209dd813ea18ac062b8236303c8a76e59a52"
   license "Apache-2.0"
 
   livecheck do
@@ -11,33 +12,35 @@ class Joern < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "61ab3eb93bc9d52dcae81c62baf10c9e0af5ed7e1e5cd86d75290cca7f102900"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "e57e048b82c120bb6c33b822a777485b91e36c63aa77037cd1f1c2446d971c32"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b29e0108351d7b78c61029e302914263f6d7ac4303bb6ce85b37101e20b19c09"
-    sha256 cellar: :any_skip_relocation, ventura:        "743202f05847916496dd29c7f9627cea82f35354e4b5b67b87799b6d26f72f62"
-    sha256 cellar: :any_skip_relocation, monterey:       "4efc081061754b6622022f137ddd131a5c827d2eaf7b7af6eea358d956e14f29"
-    sha256 cellar: :any_skip_relocation, big_sur:        "b36961ee0c2be52837b8dd46a56c1d41b925e7d5f4d97939e91981d9a16d6610"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0ff9f7aef5b357a82ae2ef8f3a4621a2be8bd8733d9da3f43e8a77854f23ba5f"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "ceb6bacb093477798ee366f77addc0add9283df746e85b843fe9e4a260309d0a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "801bfd7aaffafe4460a1260e9b80f68525c82fee8141fefd578ae1bdbcf37866"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "89714a83fd176495becc6abe5f3827d88ce9749df59261f2272749564f1927f5"
+    sha256 cellar: :any_skip_relocation, ventura:        "89db9b4298bd5d8a2f2869a6921978eec0b1f65af9d12e61e2f74655b25169e8"
+    sha256 cellar: :any_skip_relocation, monterey:       "c47ed4562915049796798bf7fd6953c2b4b602869d9531eb12b4a5ebcf685dc1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e11c080cb8e1580ed79812365022903498ae8987efab85a3103aa6de0f02242a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0494de852ecfb9c2fb35d7410b36bc54932bc8615b0f67b2c818e0d8dc5dc6b1"
   end
 
   depends_on "sbt" => :build
   depends_on "astgen"
   depends_on "coreutils"
-  depends_on "openjdk"
+  depends_on "openjdk@17"
   depends_on "php"
 
   def install
     system "sbt", "stage"
 
-    libexec.install "joern-cli/target/universal/stage/.installation_root"
-    libexec.install Dir["joern-cli/target/universal/stage/*"]
-    bin.write_exec_script Dir[libexec/"*"].select { |f| File.executable? f }
+    cd "joern-cli/target/universal/stage" do
+      rm_f Dir["**/*.bat"]
+      libexec.install Pathname.pwd.children
+    end
+
+    libexec.children.select { |f| f.file? && f.executable? }.each do |f|
+      (bin/f.basename).write_env_script f, Language::Java.overridable_java_home_env("17")
+    end
   end
 
   test do
-    ENV["JAVA_HOME"] = Formula["openjdk"].opt_prefix
-    ENV.append_path "PATH", Formula["openjdk"].opt_bin
-
     (testpath/"test.cpp").write <<~EOS
       #include <iostream>
       void print_number(int x) {

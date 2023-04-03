@@ -1,8 +1,8 @@
 class Brev < Formula
   desc "CLI tool for managing workspaces provided by brev.dev"
   homepage "https://docs.brev.dev"
-  url "https://github.com/brevdev/brev-cli/archive/refs/tags/v0.6.211.tar.gz"
-  sha256 "960f39067c4631cbcfc71b950fe74650e778f74c5d044f695e6ae58b4571ec32"
+  url "https://github.com/brevdev/brev-cli/archive/refs/tags/v0.6.213.tar.gz"
+  sha256 "85580e96b44f32f9ceef3610f71b6274da008dea822dde8bf119bb9364b442c8"
   license "MIT"
 
   livecheck do
@@ -11,13 +11,13 @@ class Brev < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "04f590e9823675e0ea06b8f22e2b8c59e600bd30fdd46b5c58ac7de418f8f4ec"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "9b5cb55f7c3f7e038abd9d9bcfd1a603a84ff3ce53dab5903f6eefc1aa7abbf3"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1a889a47f4cadf6a706c806154378a8f4046907e461a85f04f954bce625fbe56"
-    sha256 cellar: :any_skip_relocation, ventura:        "b42e76c3811ffcf371ddcabf77820ea02e8ef7c6a21ad87ce0c94b4a3ca6ebc9"
-    sha256 cellar: :any_skip_relocation, monterey:       "b2577f7d3bc3729a3d0e1dbabef12af72257ba6eb9fbd573e1dbc5e94d1fbd9d"
-    sha256 cellar: :any_skip_relocation, big_sur:        "1395ae1720b65b1b20dc3176b415e667b29becbca9c138d3b925fa900c2b311b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c748ff2ffd0451d02542be1a745726eb8aaaa5b0745111d21329418431f3539d"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "71ebabe9ca0f2a261a4e26c91790a2bbbbbb58844fb39f30a57aca0791ee38e7"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c0ac53e255d0709141fce8f2ec720468e3c4d733ea1b7b61d2f88f67010bdfb9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6f27a892ed33bcc7b8112ab66ca4b338c1d481244b3b0610a1ae7c3371d1b0a5"
+    sha256 cellar: :any_skip_relocation, ventura:        "481f78dac07aa1f0f1dc87c03b736693afa9993f2f2da2a5a398694fcc13d702"
+    sha256 cellar: :any_skip_relocation, monterey:       "671e96f8614a492ecb4daac099d7e87f46111d58288d63b30035fc899df8780c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "08e0c4c7eb7a6189521784d23b16dbd2867736743b389b0675ccd904100fe99c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e893871c9a96f94e7636de85ca3dd79cbe643693e5b5a8648b4d88be34119385"
   end
 
   depends_on "go" => :build

@@ -11,13 +11,14 @@ class R < Formula
   end
 
   bottle do
-    sha256 arm64_ventura:  "b48ded9ab20166698dd98565f2971ca3bbc1679ae2886feefac377744fa3cdc6"
-    sha256 arm64_monterey: "87a6d51a5cfac4bba2e2e524d87c3eeadc6a4187e76462f2a419312170d99645"
-    sha256 arm64_big_sur:  "88b817e08cedc0674a8b53731f6c168ee889251dc635c119c095478533777f02"
-    sha256 ventura:        "2a89d861203a6db062793e5a99ae9a469575f085a5adcef80d96afd9f9be84b9"
-    sha256 monterey:       "94c85b312e32273deabe9f83a630336cf3861b676bc1ae8cbe0b94b0c325cdf1"
-    sha256 big_sur:        "d290e628ff01b7fcd7640b682929a85e5d1e3bf180b37c27e81a94d3906deabc"
-    sha256 x86_64_linux:   "8e22c5aa2c402771169b08fe710f1e31ecf05c4058bf72e9ef05656695054da3"
+    rebuild 2
+    sha256 arm64_ventura:  "1aaac6bb43b269782761b3907dc933321bd6d75409ba8c3e2a83f447e34b3c8f"
+    sha256 arm64_monterey: "959da346785758951f801909e643af01c90457f19c3317aca31260a6182c4b8f"
+    sha256 arm64_big_sur:  "a5dab7bcf27e3786be0987b54526f0f6920427d5015dc3fc677f03ba8518a20e"
+    sha256 ventura:        "503142af4cd4cbf11e85e55ce2c3f38a8ceb57d0be3395851d8b9474c3a61049"
+    sha256 monterey:       "99775b7e6f83d77adab4bf9b58f11e0fa9e14584e948f5388b82870a5511a04c"
+    sha256 big_sur:        "960359af6bac95c9b18d58ded947b35f6b7c1dd67365df7147a4321b1217998b"
+    sha256 x86_64_linux:   "bd74ea85ecaeebc71abf1376492bdd1084ae37a43eb65e295d82f8b0dd1c8212"
   end
 
   depends_on "pkg-config" => :build
@@ -62,6 +63,10 @@ class R < Formula
   end
 
   def install
+    # `configure` doesn't like curl 8+, but convince it that everything is ok.
+    # TODO: report this upstream.
+    ENV["r_cv_have_curl728"] = "yes"
+
     args = [
       "--prefix=#{prefix}",
       "--enable-memory-profiling",
@@ -133,11 +138,13 @@ class R < Formula
   end
 
   def post_install
-    short_version =
-      `#{bin}/Rscript -e 'cat(as.character(getRversion()[1,1:2]))'`.strip
-    site_library = HOMEBREW_PREFIX/"lib/R/#{short_version}/site-library"
+    short_version = Utils.safe_popen_read(bin/"Rscript", "-e", "cat(as.character(getRversion()[1,1:2]))")
+    site_library = HOMEBREW_PREFIX/"lib/R"/short_version/"site-library"
     site_library.mkpath
-    ln_s site_library, lib/"R/site-library"
+    touch site_library/".keepme"
+    site_library_cellar = lib/"R/site-library"
+    site_library_cellar.unlink if site_library_cellar.exist?
+    site_library_cellar.parent.install_symlink site_library
   end
 
   test do

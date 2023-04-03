@@ -1,19 +1,19 @@
 class Jove < Formula
   desc "Emacs-style editor with vi-like memory, CPU, and size requirements"
   homepage "https://directory.fsf.org/wiki/Jove"
-  url "https://github.com/jonmacs/jove/archive/refs/tags/4.17.5.1.tar.gz"
-  sha256 "674fe3784c9aa58e1fbe010c7da8e026bffa5e057ab30341333a2dbcaf12887b"
+  url "https://github.com/jonmacs/jove/archive/refs/tags/4.17.5.3.tar.gz"
+  sha256 "ca5a5fcf71009c7389d655d1f1ae8139710f6cc531be95581e4b375e67f098d2"
   # license ref, https://github.com/jonmacs/jove/blob/4_17/LICENSE
   license :cannot_represent
 
   bottle do
-    sha256 arm64_ventura:  "17fb3a433af9a259e60aad69c2cdcdad57b79fc3388df91ca34f1201d7a232c7"
-    sha256 arm64_monterey: "bf899c09351194105327406a223797645d6a8cf7e6d601e76cc7ae8e262d1b06"
-    sha256 arm64_big_sur:  "6a2ca46df6881b762f4f2c8162264a911bc094312dbca323dc46bd93abb864e0"
-    sha256 ventura:        "1ae591eadac71b1594964fcead7644292e77589e49497865ba988598ec841335"
-    sha256 monterey:       "8fb6fe7d2d05359a2d0252c1cab32c6a5aec339a761a8dbefbd941088e526537"
-    sha256 big_sur:        "9885edd4fad084ad393d3d79fa299394f987150929af9b3b6ac92365464dd762"
-    sha256 x86_64_linux:   "32b3cd9573308b5e7900c2bbe168a80d4a29ce93b81e25b80c0dbb8f767e68fc"
+    sha256 arm64_ventura:  "bdfb0a74c8674460b1aacfeebfab0d7c645b392bb171eb4bc3bf4e71213cae31"
+    sha256 arm64_monterey: "a46f4789b7af164cd5154cda01dc75417012c92ad0edf97a0f2b445d247c46d7"
+    sha256 arm64_big_sur:  "cbe5d7e4fad45ad2e41d97206a79b12cf3ceefb33bb8839490fdfeb2b549603a"
+    sha256 ventura:        "9422961e8614d8aec5478e85d35182ee89349d3c36f6f2532408840b7e7a26ff"
+    sha256 monterey:       "7c883664ebb4fe5f42eef3a0df73ff285a3cb3e0e5f65f5a1c00b339b6523e7d"
+    sha256 big_sur:        "7683237862192a39be911ad6fe74a44f39f84c0396b4c0d7c8d852c4e77745ae"
+    sha256 x86_64_linux:   "5fa082ebb4156da6e11e7618f2aa658c30e6d80215093c913fc00a02489fb027"
   end
 
   uses_from_macos "ncurses"

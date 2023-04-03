@@ -3,18 +3,18 @@ class Dxpy < Formula
 
   desc "DNAnexus toolkit utilities and platform API bindings for Python"
   homepage "https://github.com/dnanexus/dx-toolkit"
-  url "https://files.pythonhosted.org/packages/23/ef/9fea1e63df04aa5faf5ff72bb7e78d190e15e122473978f3181fe3dc0972/dxpy-0.342.1.tar.gz"
-  sha256 "f4c78df89d95c57a72b146854054e6bcbb61b868ddfef1c228a6a9c3357a8d61"
+  url "https://files.pythonhosted.org/packages/f0/77/6b602e0aa5baa928cb6d4462cc2325514c7c5008f8ddddbf9e0d82d0bcfd/dxpy-0.344.0.tar.gz"
+  sha256 "15d6ab7ed18ae74644bacb8824699671e1c82a30e343f2ad242195e35d30745b"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "360f5d66fb38d75c74531f9f8bf6371435ca24ce7529573a142a76e4c96507bd"
-    sha256 cellar: :any,                 arm64_monterey: "893011cc82c6f461f097c7537e74cbbf076a7f95e109f6e3936b1f7941eab386"
-    sha256 cellar: :any,                 arm64_big_sur:  "1af944518441d55c8c6bd8fd9e70126fc49dc67c00431cdbbeaa9925ec16716f"
-    sha256 cellar: :any,                 ventura:        "0651d43a84db236e56d14f0a53917e326c7cde51829a054a20bb6200ee683002"
-    sha256 cellar: :any,                 monterey:       "c8807474f760d73ed25a063f52273f30f40befd5fb565548932754239a0538de"
-    sha256 cellar: :any,                 big_sur:        "a411eca622d6c704da9663018598055854d54ad9288a03934fdf9e19bfd6902a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "56c5cc2a476121828a572ee75bd64a6d59935ef40268df45433f8ee2d51311b6"
+    sha256 cellar: :any,                 arm64_ventura:  "9c511a40e86f482d0e17277461edd1c801d215bcc82b50adc5fc1ae91f83f0f5"
+    sha256 cellar: :any,                 arm64_monterey: "e4eea843dd18278e57b9e19ca6a5edf2aa47791c7b01ff8cd59d4c83f9e2a60d"
+    sha256 cellar: :any,                 arm64_big_sur:  "8bdb0176f65c2a649721d8f0a2d919f709e0c880d15cfde103c5a051095d7b3b"
+    sha256 cellar: :any,                 ventura:        "a9f17f331306cb3b61c938284314182a0968c4a16da00f5ca31fd32b92f01a3b"
+    sha256 cellar: :any,                 monterey:       "590ff9fc088e5be23650a715ea493ffc62188f1eb5f3d3aad64ce3585b8211fd"
+    sha256 cellar: :any,                 big_sur:        "f6578025b605b9152639973edbd2045dde3cfe385136710e5ce3cde60937ba98"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fc6dd3b866345ee934950cc739c606e5bf9808891aee2fb6ed5f29f1b3ce4eff"
   end
 
   depends_on "rust" => :build # for cryptography
@@ -32,8 +32,8 @@ class Dxpy < Formula
   end
 
   resource "argcomplete" do
-    url "https://files.pythonhosted.org/packages/ac/43/b4ac2e533f86b96414a471589948da660925b95b50b1296bd25cd50c0e3e/argcomplete-2.1.1.tar.gz"
-    sha256 "72e08340852d32544459c0c19aad1b48aa2c3a96de8c6e5742456b4f538ca52f"
+    url "https://files.pythonhosted.org/packages/9d/50/e5b3e9824a387920c4b92870359c9f7dbf21a6cd6d3dff5bf4fd3b50237a/argcomplete-3.0.5.tar.gz"
+    sha256 "fe3ce77125f434a0dd1bffe5f4643e64126d5731ce8d173d36f62fa43d6eb6f7"
   end
 
   resource "certifi" do
@@ -82,8 +82,8 @@ class Dxpy < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/c5/52/fe421fb7364aa738b3506a2d99e4f3a56e079c0a798e9f4fa5e14c60922f/urllib3-1.26.14.tar.gz"
-    sha256 "076907bf8fd355cde77728471316625a4d2f7e713c125f51953bb5b3eecf4f72"
+    url "https://files.pythonhosted.org/packages/21/79/6372d8c0d0641b4072889f3ff84f279b738cd8595b64c8e0496d4e848122/urllib3-1.26.15.tar.gz"
+    sha256 "8a388717b9476f934a21484e8c8e61875ab60644d29b9b39e11e4b9dc1c6b305"
   end
 
   resource "websocket-client" do

@@ -3,10 +3,10 @@ class Qt < Formula
 
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz"
-  mirror "https://mirrors.ukfast.co.uk/sites/qt.io/archive/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz"
-  sha256 "689f53e6652da82fccf7c2ab58066787487339f28d1ec66a8765ad357f4976be"
+  url "https://download.qt.io/official_releases/qt/6.4/6.4.3/single/qt-everywhere-src-6.4.3.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/6.4/6.4.3/single/qt-everywhere-src-6.4.3.tar.xz"
+  mirror "https://mirrors.ukfast.co.uk/sites/qt.io/archive/qt/6.4/6.4.3/single/qt-everywhere-src-6.4.3.tar.xz"
+  sha256 "29a7eebdbba0ea57978dea6083709c93593a60f0f3133a3de08b9571ee8eaab4"
   license all_of: [
     "BSD-3-Clause",
     "GFDL-1.3-no-invariants-only",
@@ -14,7 +14,7 @@ class Qt < Formula
     { "GPL-3.0-only" => { with: "Qt-GPL-exception-1.0" } },
     "LGPL-3.0-only",
   ]
-  revision 2
+  revision 1
   head "https://code.qt.io/qt/qt5.git", branch: "dev"
 
   # The first-party website doesn't make version information readily available,
@@ -25,14 +25,13 @@ class Qt < Formula
   end
 
   bottle do
-    rebuild 2
-    sha256 cellar: :any,                 arm64_ventura:  "317951f1b836fece38f97fb936147beab7f80b625876ea52466d109b81c9e45d"
-    sha256 cellar: :any,                 arm64_monterey: "ebcc6f3ac45d6f04cda36ff264ffbd6db23c204d35cec51a9cb2d28a77e1f3e1"
-    sha256 cellar: :any,                 arm64_big_sur:  "d4cda62ec74850293c2eaaf6dcef6fbfb00f0414e59cd427cfc8fc103428e3a7"
-    sha256 cellar: :any,                 ventura:        "5f26fa0a76419d504ebc4ef9ede6a00f249f0c0fbb4ab12c5ffb91ea2134a2ae"
-    sha256 cellar: :any,                 monterey:       "c0b5aa8d5e08a834a1b034fb57921a97efb36501809b266ac65a128c1baa13b1"
-    sha256 cellar: :any,                 big_sur:        "b8952ac78246fc8f435fdbb5662f2b25c83d9810d3c7e297a98b2e52df9600df"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b19257e9549b41f382e75eaed8cbacf482a092487f93312a145f4926e742ad6e"
+    sha256 cellar: :any,                 arm64_ventura:  "317da48254687f1244fd4472778289eba2b091cc13b5a735d27ecb5ab1ff926c"
+    sha256 cellar: :any,                 arm64_monterey: "4269b8744e5b7ed386086746ef89161b6ff026b557b4ce9ff9db4e26f66df745"
+    sha256 cellar: :any,                 arm64_big_sur:  "509e7d75f96096478ea91b8e9a94a1bb6d431ae3e3ec846d171243fdbcd95820"
+    sha256 cellar: :any,                 ventura:        "0bfc734ad533782db5b83fef2f18cecb124455fd51b031932cdcdadeeff7fdaa"
+    sha256 cellar: :any,                 monterey:       "9f53b6a77cd1848099b72143dfeefaea16e7752788035d1af4373e22e9368cf7"
+    sha256 cellar: :any,                 big_sur:        "57469106c5b4072ebaeca694044769df68ef052a30cf81f6e1ec7b287848a78f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b65bbc811ed9638ac93513f399cc9aaced9edeee3aec72a3cb90104f2e4c8205"
   end
 
   depends_on "cmake"      => [:build, :test]

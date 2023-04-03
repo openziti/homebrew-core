@@ -1,21 +1,21 @@
 class SocketVmnet < Formula
   desc "Daemon to provide vmnet.framework support for rootless QEMU"
   homepage "https://github.com/lima-vm/socket_vmnet"
-  url "https://github.com/lima-vm/socket_vmnet/archive/refs/tags/v1.1.1.tar.gz"
-  sha256 "d7c2c9322e38b63e533806b2d92e892a3155fddf175f7bb804fd2ba9087d41cb"
+  url "https://github.com/lima-vm/socket_vmnet/archive/refs/tags/v1.1.2.tar.gz"
+  sha256 "0c0c8670d7512f75a427df601a4d15b7bef888e07c8f54adce83a5d8be1423a4"
   license "Apache-2.0"
   head "https://github.com/lima-vm/socket_vmnet.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "01ab44a93ed874d4500ac8a7f8ef44252fe5ff96a2e78df35ed4c4da837b848f"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "da933499a674b796edc643629ecc50382fe13057e86d86173fbcb9878b649cfd"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6f1a4c54f294dfc2851218b0cf1432120e606c84e577d065a9e3caac5660ab36"
-    sha256 cellar: :any_skip_relocation, ventura:        "113fb0d997b92520557a7430bd10695c17099d55308cd5ee731c0b386d749b94"
-    sha256 cellar: :any_skip_relocation, monterey:       "fcd1d497e67e89debad36400637317534338de174ed7c7876bd869e9e9efc09c"
-    sha256 cellar: :any_skip_relocation, big_sur:        "fb87bb0eaadd73398fcde0924b3ffc49c67354267474d8e89788d58191b980d8"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "5b80c0b4a8d5d9ec994161b7ccc3a712238bacf200e1ea3fddaaf32dc9706725"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "edcfe4eac3bc20de7cdf15e62f420aef9b69ed2510aa725ad30b49087b2ab53c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4c8593ba13dff05be5a3432b7a92da5526f12097bea10329f4c6b9ae43311725"
+    sha256 cellar: :any_skip_relocation, ventura:        "b8f647a42a7d6cc4ef91ece3f641a427c06c81645a9c04a80a71b0441f204885"
+    sha256 cellar: :any_skip_relocation, monterey:       "a3569285d7af1b1d8cdb14d3e4f456287c9fc5f082d890f9917f335eee957213"
+    sha256 cellar: :any_skip_relocation, big_sur:        "730dc7cbe4f6686591dd909733d764e33e0ef3dd7dcae3e358a0f09f4a263715"
   end
 
-  keg_only "#{HOMEBREW_PREFIX}/bin is often writable by a non-admin user"
+  keg_only "Homebrew's bin directory is often writable by a non-admin user"
 
   depends_on :macos
   depends_on macos: :catalina
@@ -25,18 +25,24 @@ class SocketVmnet < Formula
     system "make", "install.bin", "install.doc", "VERSION=#{version}", "PREFIX=#{prefix}"
   end
 
+  def post_install
+    (var/"run").mkpath
+    (var/"log/socket_vmnet").mkpath
+  end
+
   def caveats
     <<~EOS
-      To install an optional launchd service, run the following command (sudo is necessary):
-      sudo brew services start socket_vmnet
+      socket_vmnet requires root privileges so you will need to run
+        `sudo #{opt_prefix}/socket_vmnet` or `sudo brew services start socket_vmnet`.
+      You should be certain that you trust any software you grant root privileges.
     EOS
   end
 
   service do
     run [opt_bin/"socket_vmnet", "--vmnet-gateway=192.168.105.1", var/"run/socket_vmnet"]
     run_type :immediate
-    error_log_path var/"run/socket_vmnet.stderr"
-    log_path var/"run/socket_vmnet.stdout"
+    error_log_path var/"log/socket_vmnet/stderr"
+    log_path var/"log/socket_vmnet/stdout"
     require_root true
   end
 

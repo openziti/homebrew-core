@@ -1,8 +1,8 @@
 class Haproxy < Formula
   desc "Reliable, high performance TCP/HTTP load balancer"
   homepage "https://www.haproxy.org/"
-  url "https://www.haproxy.org/download/2.7/src/haproxy-2.7.4.tar.gz"
-  sha256 "84cb806030569e866812eed38ebd1a8ea6fe1d9800001e59924ec3dd39553b9f"
+  url "https://www.haproxy.org/download/2.7/src/haproxy-2.7.6.tar.gz"
+  sha256 "133f357ddb3fcfc5ad8149ef3d74cbb5db6bb4a5ab67289ce0b0ab686cdeb74f"
   license "GPL-2.0-or-later" => { with: "openvpn-openssl-exception" }
 
   livecheck do
@@ -11,13 +11,13 @@ class Haproxy < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "1bfacf6be3e44d9b36ffaaa2cc055085c677c0c057e7feb5fc70c4c6a1d0eda0"
-    sha256 cellar: :any,                 arm64_monterey: "f8866d02789f748eec2d72b6477e1ea888af50ad57376863f9ff241f152a1ca9"
-    sha256 cellar: :any,                 arm64_big_sur:  "5b2214dbc4ac9b4f48a782680eae128d190792aacf5311a173991fff316800f8"
-    sha256 cellar: :any,                 ventura:        "ab1c1c0ff424d6386151c9f893a84e94a07108b349eaffebb41a73423ec87723"
-    sha256 cellar: :any,                 monterey:       "ffc36351845511b5aca41900741946a7ac08f80f34c51fa362f7a1f2a6ab8eac"
-    sha256 cellar: :any,                 big_sur:        "d227c71ab8a0ba74c7649090b2e3c4ea54c37447bc1c937ce62da19f4e0bded0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f7c34b0b9790fb6668b5e8c368f1248c552d3aa4fe74d05638e71aa378cc73a4"
+    sha256 cellar: :any,                 arm64_ventura:  "d047eba0d976365a755a079ed54445457c9e770e912410febe8e8b24f12148ca"
+    sha256 cellar: :any,                 arm64_monterey: "5e1fba963b0e2841ffaa4795d5d993b3a708d7d63c972e82806ec1a9d169e123"
+    sha256 cellar: :any,                 arm64_big_sur:  "04d4f5f4de91d2e09cded470bcdc8d9ffdac6f5580ae14dd60fa8bf1dd193132"
+    sha256 cellar: :any,                 ventura:        "9cff68774acc217df0988d6e05595b969aa70067b14643dda8e627696aa06146"
+    sha256 cellar: :any,                 monterey:       "1d2be840d89e935d7eaad1d59070d25000aa39a1f84e1005bf428d228613e65a"
+    sha256 cellar: :any,                 big_sur:        "faa7cb24ecca0d4695d9267204d42b2a3baacb53d1c7a556d5d52da673448ad4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7394e036745b2eee60ac70646dd2ee7203a8d57db51c2f29ec37d1507dfa5b6d"
   end
 
   depends_on "openssl@3"

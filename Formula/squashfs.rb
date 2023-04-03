@@ -1,27 +1,25 @@
 class Squashfs < Formula
   desc "Compressed read-only file system for Linux"
   homepage "https://github.com/plougher/squashfs-tools"
-  url "https://github.com/plougher/squashfs-tools/archive/4.5.1.tar.gz"
-  sha256 "277b6e7f75a4a57f72191295ae62766a10d627a4f5e5f19eadfbc861378deea7"
+  url "https://github.com/plougher/squashfs-tools/archive/4.6.1.tar.gz"
+  sha256 "94201754b36121a9f022a190c75f718441df15402df32c2b520ca331a107511c"
   license "GPL-2.0-or-later"
   head "https://github.com/plougher/squashfs-tools.git", branch: "master"
 
   # Tags like `4.4-git.1` are not release versions and the regex omits these
-  # (see: https://github.com/plougher/squashfs-tools/issues/96).
   livecheck do
     url :stable
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "58c8745b53df2992c562478b518a74e65bad8c02589c166da551998fdb658b69"
-    sha256 cellar: :any,                 arm64_monterey: "50dcadbee689df7c02ebe5d670130702adffccdb571065708f46e1ac1931e987"
-    sha256 cellar: :any,                 arm64_big_sur:  "598644964161de2d652b91dd290a5a5e0e690de017a949330efcf9ad29ce5596"
-    sha256 cellar: :any,                 ventura:        "722e80872808ded8cf150daaaddaae5f431ccd027f351d13bd0c2d0c2ec3a8fb"
-    sha256 cellar: :any,                 monterey:       "885f25d16305d7cdaefe226e5601eb07c990d471f428d095e4107b3dd1264e85"
-    sha256 cellar: :any,                 big_sur:        "7363ce181dc2581dc4862218bc08ad20dc24729fe93c2ac63b0e0090dc714670"
-    sha256 cellar: :any,                 catalina:       "3bd185a9c1a765fb32186dfb141315932ca36b9b3efce9213e5e1289f739d65d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aef2b6dbbd4c705660275eb97408cf64bb9e4a8a5119a5646e08d2f19bb0b8a0"
+    sha256 cellar: :any,                 arm64_ventura:  "2d8bf130f1b58fa03252b6cccbab2f0d4ffa600b33996a40e61d91d73f7fd55f"
+    sha256 cellar: :any,                 arm64_monterey: "6cef6a569617ae5135c3eb170ee09f7fea7736da13b953f2efb44d024e947a4e"
+    sha256 cellar: :any,                 arm64_big_sur:  "fd3ad11d7192e0faad3906f5556aca470d2b8404ce07f6cded1514af2c286689"
+    sha256 cellar: :any,                 ventura:        "f77526a0a06e07ffba3e86a57c09391f3e962f221543ba424276beea2de6be29"
+    sha256 cellar: :any,                 monterey:       "0f4721b581fa57db435d884bc4af98ce7c58e3ba92262e2277676b1e44e4cb1f"
+    sha256 cellar: :any,                 big_sur:        "821ae58379b5a2465979686d50f3f54d26b7707e5aaa8180eea6d6da5559b07d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "48347e06cf3d3bd099d441f38de0d32296340334bebefa048550d8b8afcb426d"
   end
 
   depends_on "gnu-sed" => :build
@@ -33,14 +31,6 @@ class Squashfs < Formula
   depends_on "zstd"
 
   uses_from_macos "zlib"
-
-  # Patch necessary to emulate the sigtimedwait process otherwise we get build failures.
-  # Also clang fixes, extra endianness knowledge and a bundle of other macOS fixes.
-  # Original patchset: https://github.com/plougher/squashfs-tools/pull/69
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/67d366d76a655dca08177bf05d812361c4175a10/squashfs/4.5.1.patch"
-    sha256 "2cc6cfb75f1479cbc74e3a03b1c359ba63f1c1caa5bb65d6ffca0e95264552f1"
-  end
 
   def install
     args = %W[
@@ -72,7 +62,15 @@ class Squashfs < Formula
       end
     end
 
-    doc.install %W[README-#{version} RELEASE-READMEs USAGE COPYING]
+    doc.install %W[
+      README-#{version}
+      USAGE-#{version.major_minor}
+      USAGE-MKSQUASHFS-#{version.major_minor}
+      USAGE-SQFSCAT-#{version.major_minor}
+      USAGE-SQFSTAR-#{version.major_minor}
+      USAGE-UNSQUASHFS-#{version.major_minor}
+      COPYING
+    ]
   end
 
   test do

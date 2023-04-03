@@ -5,12 +5,16 @@ on:
     branches:
       - master
   pull_request:
+  merge_group:
 
 env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_GITHUB_ACTIONS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_FROM_API: 1
+  GH_REPO: ${{github.repository}}
+  GH_NO_UPDATE_NOTIFIER: 1
+  GH_PROMPT_DISABLED: 1
 
 concurrency:
   group: "tests-${{ github.ref }}"
@@ -57,6 +61,7 @@ jobs:
       timeout-minutes: ${{ steps.check-labels.outputs.timeout-minutes }}
       test-bot-formulae-args: ${{ steps.check-labels.outputs.test-bot-formulae-args }}
       test-bot-dependents-args: ${{ steps.check-labels.outputs.test-bot-dependents-args }}
+      cleanup-linux-runner: ${{ steps.check-labels.outputs.cleanup-linux-runner }}
     steps:
       - name: Check for CI labels
         id: check-labels
@@ -74,17 +79,28 @@ jobs:
               pull_number: context.issue.number
             })
             const label_names = labels.map(label => label.name)
+            var syntax_only = false
 
             if (label_names.includes('CI-syntax-only')) {
               console.log('CI-syntax-only label found. Skipping tests job.')
-              core.setOutput('syntax-only', 'true')
+              syntax_only = true
             } else {
               console.log('No CI-syntax-only label found. Running tests job.')
-              core.setOutput('syntax-only', 'false')
+            }
+
+            if (label_names.includes('CI-published-bottle-commits')) {
+              console.log('CI-published-bottle-commits label found. Skipping tests job.')
+              syntax_only = true
+            }
+
+            core.setOutput('syntax-only', syntax_only)
+            if (syntax_only) {
+              return
             }
 
             if (label_names.includes('CI-linux-self-hosted')) {
               core.setOutput('linux-runner', 'linux-self-hosted-1')
+              core.setOutput('cleanup-linux-runner', 'true')
             } else {
               if (label_names.includes('CI-linux-large-runner')) {
                 core.setOutput('linux-runner', 'homebrew-large-bottle-build')
@@ -92,6 +108,7 @@ jobs:
                 core.setOutput('linux-runner', 'ubuntu-22.04')
               }
               core.setOutput('logs-dir', '/github/home/.cache/Homebrew/Logs')
+              core.setOutput('cleanup-linux-runner', 'false')
             }
 
             if (label_names.includes('CI-no-fail-fast')) {
@@ -104,6 +121,9 @@ jobs:
 
             if (label_names.includes('CI-skip-dependents')) {
               console.log('CI-skip-dependents label found. Skipping brew test-bot --only-formulae-dependents.')
+              core.setOutput('test-dependents', 'false')
+            } else if (!process.env.TESTING_FORMULAE) {
+              console.log('No testing formulae found. Skipping brew test-bot --only-formulae-dependents.')
               core.setOutput('test-dependents', 'false')
             } else {
               console.log('No CI-skip-dependents label found. Running brew test-bot --only-formulae-dependents.')
@@ -201,10 +221,156 @@ jobs:
         include:
           - runner: "13-arm64-${{github.run_id}}-${{github.run_attempt}}"
           - runner: "13-${{github.run_id}}-${{github.run_attempt}}"
-          - runner: "12-arm64"
+          - runner: "12-arm64-${{github.run_id}}-${{github.run_attempt}}"
           - runner: "12-${{github.run_id}}-${{github.run_attempt}}"
           - runner: "11-arm64"
+            cleanup: true
           - runner: "11-${{github.run_id}}-${{github.run_attempt}}"
+          - runner: ${{needs.setup_tests.outputs.linux-runner}}
+            container:
+              image: ghcr.io/homebrew/ubuntu22.04:master
+              options: --user=linuxbrew -e GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED
+            workdir: /github/home
+            timeout: 4320
+            cleanup: ${{fromJson(needs.setup_tests.outputs.cleanup-linux-runner)}}
+      fail-fast: ${{fromJson(needs.setup_tests.outputs.fail-fast)}}
+    runs-on: ${{matrix.runner}}
+    container: ${{matrix.container}}
+    timeout-minutes: ${{ matrix.timeout || fromJson(needs.setup_tests.outputs.timeout-minutes) }}
+    defaults:
+      run:
+        shell: /bin/bash -e {0}
+        working-directory: ${{matrix.workdir || github.workspace}}
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      HOMEBREW_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - name: Set environment variables
+        if: runner.os == 'macOS'
+        run: |
+          echo 'PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin' >> $GITHUB_ENV
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Enable debug mode
+        run: |
+          echo 'HOMEBREW_DEBUG=1' >> "${GITHUB_ENV}"
+          echo 'HOMEBREW_VERBOSE=1' >> "${GITHUB_ENV}"
+        if: runner.debug
+
+      - run: brew test-bot --only-cleanup-before
+        if: matrix.cleanup
+
+      - run: brew test-bot --only-setup
+
+      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
+        id: brew-test-bot-formulae
+        run: |
+          rm -rf bottles
+          mkdir bottles
+          cd bottles
+          brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
+
+      - name: Failures summary for brew test-bot --only-formulae
+        if: always()
+        uses: Homebrew/actions/failures-summary-and-bottle-result@master
+        with:
+          workdir: ${{matrix.workdir || github.workspace}}
+          result_path: bottles/steps_output.txt
+          step_name: "Build summary on ${{ matrix.runner }}"
+
+      - name: Output brew linkage result
+        if: always()
+        uses: Homebrew/actions/failures-summary-and-bottle-result@master
+        with:
+          workdir: ${{matrix.workdir || github.workspace}}
+          result_path: bottles/linkage_output.txt
+          step_name: "`brew linkage` output on ${{ matrix.runner }}"
+          collapse: "true"
+
+      - name: Output brew bottle result
+        if: always()
+        uses: Homebrew/actions/failures-summary-and-bottle-result@master
+        with:
+          workdir: ${{matrix.workdir || github.workspace}}
+          result_path: bottles/bottle_output.txt
+          step_name: "`brew bottle` output on ${{ matrix.runner }}"
+          collapse: "true"
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@main
+        with:
+          name: logs-${{ matrix.runner }}
+          path: ${{ runner.os == 'Linux' && needs.setup_tests.outputs.logs-dir || format('{0}/bottles/logs', matrix.workdir || github.workspace) }}
+
+      - name: Delete logs and home
+        if: always()
+        run: |
+          rm -rvf bottles/logs
+          rm -rvf bottles/home
+
+      - name: Count bottles
+        id: bottles
+        if: always()
+        run: |
+          cd bottles
+
+          count=$(ls *.json | wc -l | xargs echo -n)
+          echo "$count bottles"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
+          failures=$(ls failed/*.json | wc -l | xargs echo -n)
+          echo "$failures failed bottles"
+          echo "failures=$failures" >> "$GITHUB_OUTPUT"
+
+          skipped_lists=$(ls skipped_or_failed_formulae-*.txt | wc -l | xargs echo -n)
+          echo "$skipped_lists lists of skipped formulae"
+          echo "skipped=$skipped_lists" >> "$GITHUB_OUTPUT"
+
+      - name: Upload failed bottles
+        if: always() && steps.bottles.outputs.failures > 0
+        uses: actions/upload-artifact@main
+        with:
+          name: bottles-${{ matrix.runner }}
+          path: ${{matrix.workdir || github.workspace}}/bottles/failed
+
+      # Must be run before the `Upload bottles` step so that failed
+      # bottles are not included in the `bottles` artifact.
+      - name: Delete failed bottles
+        if: always()
+        run: rm -rvf bottles/failed
+
+      - name: Upload bottles
+        if: always() && (steps.bottles.outputs.count > 0 || steps.bottles.outputs.skipped > 0)
+        uses: actions/upload-artifact@main
+        with:
+          name: bottles
+          path: ${{matrix.workdir || github.workspace}}/bottles
+
+      - name: Post cleanup
+        if: always() && matrix.cleanup
+        run: |
+          brew test-bot --only-cleanup-after
+          rm -rvf bottles
+
+  test_deps:
+    needs: [tap_syntax, setup_tests, tests]
+    if: >
+      github.event_name == 'pull_request' &&
+      fromJson(needs.setup_tests.outputs.syntax-only) == false &&
+      fromJson(needs.setup_tests.outputs.test-dependents)
+    strategy:
+      matrix:
+        include:
+          - runner: "13-arm64-${{github.run_id}}-${{github.run_attempt}}-deps"
+          - runner: "13-${{github.run_id}}-${{github.run_attempt}}-deps"
+          - runner: "12-arm64-${{github.run_id}}-${{github.run_attempt}}-deps"
+          - runner: "12-${{github.run_id}}-${{github.run_attempt}}-deps"
+          - runner: "11-arm64"
+          - runner: "11-${{github.run_id}}-${{github.run_attempt}}-deps"
           - runner: ${{needs.setup_tests.outputs.linux-runner}}
             container:
               image: ghcr.io/homebrew/ubuntu22.04:master
@@ -240,104 +406,42 @@ jobs:
 
       - run: brew test-bot --only-cleanup-before
 
-      - run: brew test-bot --only-setup
-
-      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
-        id: brew-test-bot-formulae
-        run: |
-          rm -rf bottles
-          mkdir bottles
-          cd bottles
-          brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
-
-      - name: Failures summary for brew test-bot --only-formulae
-        if: always()
-        uses: Homebrew/actions/failures-summary-and-bottle-result@master
+      - name: Download bottles from GitHub Actions
+        uses: actions/download-artifact@v3
         with:
-          workdir: ${{matrix.workdir || github.workspace}}
-          result_path: bottles/steps_output.txt
-          step_name: 'Build summary on ${{ matrix.runner }}'
+          name: bottles
+          path: ~/bottles/
 
-      - name: Output brew linkage result
-        if: always()
-        uses: Homebrew/actions/failures-summary-and-bottle-result@master
-        with:
-          workdir: ${{matrix.workdir || github.workspace}}
-          result_path: bottles/linkage_output.txt
-          step_name: '`brew linkage` output on ${{ matrix.runner }}'
-          collapse: 'true'
-
-      - name: Output brew bottle result
-        if: always()
-        uses: Homebrew/actions/failures-summary-and-bottle-result@master
-        with:
-          workdir: ${{matrix.workdir || github.workspace}}
-          result_path: bottles/bottle_output.txt
-          step_name: '`brew bottle` output on ${{ matrix.runner }}'
-          collapse: 'true'
-
-      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
+      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }}
         if: ${{(success() || failure()) && fromJson(needs.setup_tests.outputs.test-dependents)}}
         run: |
-          cd bottles
-          brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
+          cd ~/bottles
+          brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }}
 
-      - name: Failures summary for brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
+      - name: Failures summary for brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }}
         if: ${{always() && fromJson(needs.setup_tests.outputs.test-dependents) == true}}
         uses: Homebrew/actions/failures-summary-and-bottle-result@master
         with:
           workdir: ${{matrix.workdir || github.workspace}}
-          result_path: bottles/steps_output.txt
-          step_name: 'Dependent summary on ${{ matrix.runner }}'
-          collapse: 'true'
+          result_path: ~/bottles/steps_output.txt
+          step_name: "Dependent summary on ${{ matrix.runner }}"
+          collapse: "true"
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@main
         with:
-          name: logs-${{ matrix.runner }}
-          path: ${{ runner.os == 'Linux' && needs.setup_tests.outputs.logs-dir || format('{0}/bottles/logs', matrix.workdir || github.workspace) }}
+          name: logs-deps-${{ matrix.runner }}
+          path: ~/bottles/logs
 
       - name: Delete logs and home
         if: always()
         run: |
-          rm -rvf bottles/logs
-          rm -rvf bottles/home
-
-      - name: Count bottles
-        id: bottles
-        if: always()
-        run: |
-          cd bottles
-          count=$(ls *.json | wc -l | xargs echo -n)
-          echo "$count bottles"
-          echo "count=$count" >> $GITHUB_OUTPUT
-          failures=$(ls failed/*.json | wc -l | xargs echo -n)
-          echo "$failures failed bottles"
-          echo "failures=$failures" >> $GITHUB_OUTPUT
-
-      - name: Upload failed bottles
-        if: always() && steps.bottles.outputs.failures > 0
-        uses: actions/upload-artifact@main
-        with:
-          name: bottles-${{ matrix.runner }}
-          path: ${{matrix.workdir || github.workspace}}/bottles/failed
-
-      # Must be run before the `Upload bottles` step so that failed
-      # bottles are not included in the `bottles` artifact.
-      - name: Delete failed bottles
-        if: always()
-        run: rm -rvf bottles/failed
-
-      - name: Upload bottles
-        if: always() && steps.bottles.outputs.count > 0
-        uses: actions/upload-artifact@main
-        with:
-          name: bottles
-          path: ${{matrix.workdir || github.workspace}}/bottles
+          rm -rvf ~/bottles/logs
+          rm -rvf ~/bottles/home
 
       - name: Post cleanup
         if: always()
         run: |
           brew test-bot --only-cleanup-after
-          rm -rvf bottles
+          rm -rvf ~/bottles

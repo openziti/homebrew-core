@@ -1,20 +1,20 @@
 class LtexLs < Formula
   desc "LSP for LanguageTool with support for Latex, Markdown and Others"
   homepage "https://valentjn.github.io/ltex/"
-  url "https://github.com/valentjn/ltex-ls/archive/refs/tags/15.2.0.tar.gz"
-  sha256 "59209730cb9cda57756a5d52c6af459f026ca72c63488dee3cfd232e4cfbf70a"
+  url "https://github.com/valentjn/ltex-ls/archive/refs/tags/16.0.0.tar.gz"
+  sha256 "0cd67495ee4695493fc2a0b37d14146325aa6b9f45d767d16c60abdefdd2dc1d"
   license "MPL-2.0"
   head "https://github.com/valentjn/ltex-ls.git", branch: "develop"
 
   bottle do
     rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "906173952c376218818310b186e60bf8b7d3698f579afed9f967ef3ce0966f2f"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "73aa15eb9ccbae4dad9082b36278648f1f2495852c00d149570a810662337d60"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "33f4777677338470e3aa1f9ac0fc8a90f56d68ad0f677467a7092763de511d40"
-    sha256 cellar: :any_skip_relocation, ventura:        "157537c7e8d7833508332982cd95c691664fb5a0790810e2254c0212238984e8"
-    sha256 cellar: :any_skip_relocation, monterey:       "349287b0c61db2ece982339d2749283ada14c4016cae8688bb9393c9883f99dc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "1984213d3c1814418eefbefc2cd313fa234ff1053cef6dfeeb14cdbb705419e4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5999bc49069005daea609d4d7a1298650095f802bc4fdf7efb5c3143c4c99838"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "4b244f07079c6aaab1a65f648d6ee13266fb1164f7f82f6003a9284e9976d2cb"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "11567aa4c9ea7b6d0516329dc5d527cd1f212b1869a0473456c8a2ec0a902907"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "cb3a024aedddbde888b77821f76b8c48e4a2648358f669a16881dde500315094"
+    sha256 cellar: :any_skip_relocation, ventura:        "baa9c3e2989c2664dc853b71bf1b3ccad9b78add83dc44f7bbb6ea9983278c67"
+    sha256 cellar: :any_skip_relocation, monterey:       "5e837641af16e424a784e9392f1df5fff22984fd561666e060c6bb4131c9cd0a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d69b0d4ba11e0c48d1d7719b126f6240ec15765077cd84be560010bc88b355e6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4adccf31620d7eab220663889b631f5b33e52ab7c1e96d1b91dafd732b450baa"
   end
 
   depends_on "maven" => :build
@@ -22,6 +22,10 @@ class LtexLs < Formula
   depends_on "openjdk"
 
   def install
+    # Fix build with `openjdk` 20.
+    # Reported upstream at https://github.com/valentjn/ltex-ls/issues/244.
+    inreplace "pom.xml", "<arg>-Werror</arg>", ""
+
     ENV.prepend_path "PATH", Formula["python@3.11"].opt_libexec/"bin"
     ENV["JAVA_HOME"] = Formula["openjdk"].opt_prefix
     ENV["TMPDIR"] = buildpath

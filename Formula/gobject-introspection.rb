@@ -3,20 +3,18 @@ class GobjectIntrospection < Formula
 
   desc "Generate introspection data for GObject libraries"
   homepage "https://gi.readthedocs.io/en/latest/"
-  url "https://download.gnome.org/sources/gobject-introspection/1.74/gobject-introspection-1.74.0.tar.xz"
-  sha256 "347b3a719e68ba4c69ff2d57ee2689233ea8c07fc492205e573386779e42d653"
+  url "https://download.gnome.org/sources/gobject-introspection/1.76/gobject-introspection-1.76.1.tar.xz"
+  sha256 "196178bf64345501dcdc4d8469b36aa6fe80489354efe71cb7cb8ab82a3738bf"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.0-or-later", "MIT"]
 
   bottle do
-    rebuild 1
-    sha256 arm64_ventura:  "9342850d655d2ff1ab8d0b263a9cb9eb483fba3f3520754dea86c5db55633d7e"
-    sha256 arm64_monterey: "a2d055c6adfe61109d77d6868371a37f757ed2a0215e01e9e6b782af02d2fca8"
-    sha256 arm64_big_sur:  "8df914d538a9ee28653ae3a368830481541c13c9fc3bf6133587a86c6d2cc0e4"
-    sha256 ventura:        "56cbcedb7b5ff5edc66d039817a85d4dfc80d1861e9db9282e01853ca8a5e328"
-    sha256 monterey:       "44b03b7f51941f220e553cbf565e63c7c5e36833609cb6de248d2c62f66d5af3"
-    sha256 big_sur:        "60e0831ce9685429b4c7c11180789f225fd30d4542ed102acb912d684383271f"
-    sha256 catalina:       "71ad6ca87e733d7a25c43a6a3e5d8d3e2b983d33502e6936dfad0d77b17db6c6"
-    sha256 x86_64_linux:   "231554638d60b7702697dbd4266c0104bc2bf19de4f1f9f776e702e5f4b73690"
+    sha256 arm64_ventura:  "0893c5b8d8dc89d1649c6d72c2d2a29fbe9412a5348a5e1fb28ebc284d46332e"
+    sha256 arm64_monterey: "582383ac2d0f617df8638783bc39223626575e33e8248a5241ec115f576797ca"
+    sha256 arm64_big_sur:  "89eaa90a0ac005b0b0d320b301be097029def2049b44e26361b7bacc2c03dd39"
+    sha256 ventura:        "3382ba757d765b37a4cc62ea56a1954df7e889de9eb876017040afc86ded8fd4"
+    sha256 monterey:       "5e4879812fefd3b8edc8f0ce6c99e876c1c849537510df29305acf1ac9c2ae11"
+    sha256 big_sur:        "17f6ce7c80d81bcb4a125fd2248a89489c71b9080935873c0a7b261facac4337"
+    sha256 x86_64_linux:   "0ba66387b38379e17cf178709bba85e055385192c8596a117ea6ff97fc997574"
   end
 
   depends_on "bison" => :build
@@ -31,7 +29,7 @@ class GobjectIntrospection < Formula
   uses_from_macos "flex" => :build
   uses_from_macos "libffi", since: :catalina
 
-  resource "tutorial" do
+  resource "homebrew-tutorial" do
     url "https://gist.github.com/7a0023656ccfe309337a.git",
         revision: "499ac89f8a9ad17d250e907f74912159ea216416"
   end
@@ -67,7 +65,7 @@ class GobjectIntrospection < Formula
   end
 
   test do
-    resource("tutorial").stage testpath
+    resource("homebrew-tutorial").stage testpath
     system "make"
     assert_predicate testpath/"Tut-0.1.typelib", :exist?
   end

@@ -1,21 +1,20 @@
 require "language/node"
 
 class Fanyi < Formula
-  desc "Mandarin and english translate tool in your command-line"
+  desc "Chinese and English translate tool in your command-line"
   homepage "https://github.com/afc163/fanyi"
-  url "https://registry.npmjs.org/fanyi/-/fanyi-6.0.1.tgz"
-  sha256 "507676c5a45579c6b3d4d5607cdc0d20bd770920f19e4ffad136cdfc69d04903"
+  url "https://registry.npmjs.org/fanyi/-/fanyi-8.0.3.tgz"
+  sha256 "5798b84e26584878024fa5038defe3d1a33d5d600c95290b6c54d1dd8cdef421"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "a0069db5a3d5c50ff5b17df99f18732890bb1efd60f579ce5b7f0cbe2bb9a8fc"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "cb55cc60b3dbdb87a7b2a15c85720aa24dc4224e23abf31f274afbfa1bb2c6d6"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "cb55cc60b3dbdb87a7b2a15c85720aa24dc4224e23abf31f274afbfa1bb2c6d6"
-    sha256 cellar: :any_skip_relocation, ventura:        "806fd5a63cbb2621d1d462f7bf2820b8f540664b41a0971de63994aa75340aa5"
-    sha256 cellar: :any_skip_relocation, monterey:       "9132b37bc566652a53ca40dbc25435a328d9d649ba9efcad1d5e8650752e23bc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "9132b37bc566652a53ca40dbc25435a328d9d649ba9efcad1d5e8650752e23bc"
-    sha256 cellar: :any_skip_relocation, catalina:       "9132b37bc566652a53ca40dbc25435a328d9d649ba9efcad1d5e8650752e23bc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "106b35e5c02b9feab24cd37901b0b6d1ea21136b6888209a88900c0e21f90386"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "b7728af46fdeeff0990e400a0bdecc76239094a19a4e0589ab1e88394fa3ce6d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b7728af46fdeeff0990e400a0bdecc76239094a19a4e0589ab1e88394fa3ce6d"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b7728af46fdeeff0990e400a0bdecc76239094a19a4e0589ab1e88394fa3ce6d"
+    sha256 cellar: :any_skip_relocation, ventura:        "4f43524726f3d282299f7a68b1c436f3d70f6be419cd8d4c9d41c1d58ee51b20"
+    sha256 cellar: :any_skip_relocation, monterey:       "4f43524726f3d282299f7a68b1c436f3d70f6be419cd8d4c9d41c1d58ee51b20"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4f43524726f3d282299f7a68b1c436f3d70f6be419cd8d4c9d41c1d58ee51b20"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "41e9d42993b45b6c5912408b174e2f520c3ed244da434e3c4e0d566ed3aceeba"
   end
 
   depends_on "node"

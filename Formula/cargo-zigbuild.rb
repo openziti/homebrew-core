@@ -1,19 +1,19 @@
 class CargoZigbuild < Formula
   desc "Compile Cargo project with zig as linker"
   homepage "https://github.com/rust-cross/cargo-zigbuild"
-  url "https://github.com/rust-cross/cargo-zigbuild/archive/refs/tags/v0.16.3.tar.gz"
-  sha256 "ebfc5a2462626082d2c784e735c038a9e174abbe0b20b9d2cb185add125ee95a"
+  url "https://github.com/rust-cross/cargo-zigbuild/archive/refs/tags/v0.16.5.tar.gz"
+  sha256 "d5689640135dfbdc625b91a7319457b5096535bdf5b25fc4a65fe7ca1c740834"
   license "MIT"
   head "https://github.com/rust-cross/cargo-zigbuild.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "fa5c322cc299fc50d02ceed6ebe65b5e4c80cc3993d4b3166c6a582dc690ad9b"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "72f59cc23b8fa0cc350c13376799c078fbd23655d00ad5e4d6ef806182db3f4d"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2e859b560c95be115a1c64d6cdb5b9dbe338807521499157a7d718972cdd13d6"
-    sha256 cellar: :any_skip_relocation, ventura:        "3e7572302b04ace19a050561289467e9229daea54c28bde32f61ff35243af1c0"
-    sha256 cellar: :any_skip_relocation, monterey:       "4d51c3fda648feb7d4b6a861c60d71450759ffe873452b33f97bd5a104748430"
-    sha256 cellar: :any_skip_relocation, big_sur:        "4624f445cedf2dc76becb113c369ff46fe48d56d1fbe833e9fd13332499cf4d6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7e5f97e9ef4b09a01b904d206971f0b888b19ddd262bba519cd4e0648f781595"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "8aaa67048e12ae91a862543f1265151fdc194a7a44cbdc309b07fd8f74161e40"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e6d7f367b20041d2e8170337157abc8413cf0e409ffbf57cab3f8cc453caf7b5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e37e5e0e328cabc3f2592da17c1685c112ed5883fb6f9e7466363dcd73e45d12"
+    sha256 cellar: :any_skip_relocation, ventura:        "d7bebc61304a94dd20ebd765cd53fa512c3b5391436ae8d63dae26a0170eb1aa"
+    sha256 cellar: :any_skip_relocation, monterey:       "1c5b6ad889b20f11109ac1f996ea9da921aa7b6f310f6268351698876c01f8e6"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5a7d460b69c907bfc93f8f55ed4b2fad07295a48cf23823d240dbfb93930cb55"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "971095a132edd9cd6ac6107dfe147346be60e92ab714269db6c31710bbd2f569"
   end
 
   depends_on "rustup-init" => :test

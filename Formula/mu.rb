@@ -4,8 +4,8 @@
 class Mu < Formula
   desc "Tool for searching e-mail messages stored in the maildir-format"
   homepage "https://www.djcbsoftware.nl/code/mu/"
-  url "https://github.com/djcb/mu/releases/download/v1.8.14/mu-1.8.14.tar.xz"
-  sha256 "1a9c5e15b5e8b67622f7e58dfadd453abf232c0b715bd5f89b955e704455219c"
+  url "https://github.com/djcb/mu/releases/download/v1.10.1/mu-1.10.1.tar.xz"
+  sha256 "00cba4b6a54151de8f3fb06d4d6a180cd20e0f1780cec751890c647ae60e944f"
   license "GPL-3.0-or-later"
   head "https://github.com/djcb/mu.git", branch: "master"
 
@@ -18,13 +18,13 @@ class Mu < Formula
   end
 
   bottle do
-    sha256 arm64_ventura:  "a7374671eb123ef221ad1df86dba8b3fd9ad7d10e048f439245b88240ae15676"
-    sha256 arm64_monterey: "aff9b01cee886de6fbe057aa2fe33aead281911496a65f58e254586f04766912"
-    sha256 arm64_big_sur:  "88e297752713b5922ee0d4fe819677bbf2c1d787cf27ec90bbdfbeca7d402e6a"
-    sha256 ventura:        "ffcd38352e528ccae36b058d630a79e0240626a8d76ee3535bbdefbd90b69306"
-    sha256 monterey:       "5abf4fafe115819cf9a22bac48b7307157561c06e237d389af2bdd590e06dff4"
-    sha256 big_sur:        "252ae563cb147d3cbcdfb3cb4ba84b2febb0a4ebefd567ae449f2215a31fed5c"
-    sha256 x86_64_linux:   "07366478a9a8b5c3f328e73837f1c7dcf213a73a5c28ebd74d316378b6747dc2"
+    sha256 arm64_ventura:  "e9f196c648ef03b08526926b5d8c11db4bc599df5dd049580273154f7095cad3"
+    sha256 arm64_monterey: "76dc383f291dc415738c8d7a87a5994a8cd524c046876af39a950f5058c4f32a"
+    sha256 arm64_big_sur:  "6080d014d7f8a6428cb39c75a62dd5c4da79b063e997b49b600ad5609aabfc67"
+    sha256 ventura:        "64aa46d6121c9f34644b457d8edaf1983ef458f546f2a504f2c1d5b957dbbd8d"
+    sha256 monterey:       "f75c11690784eae137ff211b12bb3e78db3c8076af636926d07da85cdbe47733"
+    sha256 big_sur:        "0b1bf1e2f42da1489844501eaaf3de6a02bd390201e9d4bfe01bd33b3126e2ea"
+    sha256 x86_64_linux:   "73b4b88d2e0404d6a234ad27ff039e4e78fd8b4a10bc61a59dd2b3426a40b64c"
   end
 
   depends_on "emacs" => :build
@@ -55,10 +55,6 @@ class Mu < Formula
     end
   end
 
-  # Regression test for:
-  # https://github.com/djcb/mu/issues/397
-  # https://github.com/djcb/mu/issues/380
-  # https://github.com/djcb/mu/issues/332
   test do
     mkdir (testpath/"cur")
 
@@ -90,7 +86,7 @@ class Mu < Formula
 
     assert_equal 1, shell_output(find_message).lines.count
     assert_equal 2, shell_output(find_message_and_related).lines.count, <<~EOS
-      You tripped over https://github.com/djcb/mu/issues/380
+      You tripped over djcb/mu#380
         --related doesn't work. Everything else should
     EOS
   end

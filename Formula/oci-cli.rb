@@ -3,19 +3,19 @@ class OciCli < Formula
 
   desc "Oracle Cloud Infrastructure CLI"
   homepage "https://docs.cloud.oracle.com/iaas/Content/API/Concepts/cliconcepts.htm"
-  url "https://files.pythonhosted.org/packages/0d/cd/4d864638408e87f181e23c021d185eb3c9963084c5a3dba3b19cf6f7ad5b/oci-cli-3.23.4.tar.gz"
-  sha256 "f18e268d1a32224b5dd6658d808eb24658ca93aab7cc40af32ad3ef4099e890e"
+  url "https://files.pythonhosted.org/packages/3d/86/3ae426bb9dbb9b5845388f558904d23e7f1bf0afa5e3bef6c126fb580ec4/oci-cli-3.25.0.tar.gz"
+  sha256 "03939cec991a37cd8a7e090a9a5c031464768165e913f79a6db6152483f8f0c0"
   license any_of: ["UPL-1.0", "Apache-2.0"]
   head "https://github.com/oracle/oci-cli.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "23ac8c8c84e8a60a30e49f119cac02054118cc4fddec543763518b6536d1fe90"
-    sha256 cellar: :any,                 arm64_monterey: "656ac11640262168b53a18ad89b80ad57971b4d89c5ba4ad25caafa7be7f0514"
-    sha256 cellar: :any,                 arm64_big_sur:  "081d0c69101939342ff4b7991f7f8ab3802b3cff24070696598ef601e55a1c9b"
-    sha256 cellar: :any,                 ventura:        "6ddfded9de3fb5b10bb330cdbcfcdac04667241c964d6b07cf8c0e82f4ec46dd"
-    sha256 cellar: :any,                 monterey:       "489be52c12e58deb3e09bb699f92e7c53b9649c9a74c1fbeac623bcc295eec00"
-    sha256 cellar: :any,                 big_sur:        "63dee60531b8cf46146a813504666cf0d46016c656857350bb42e72ea55dad4f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2866b96a812a6cc735476e133a3b32fe3cd1c1f2139c8a200fca86f997a5b79f"
+    sha256 cellar: :any,                 arm64_ventura:  "67f233c8e6e492085df2b156db855125885cee288375a0e6ae401d6d54fe1f18"
+    sha256 cellar: :any,                 arm64_monterey: "da38bcb1e6116d7facaaa37d44860be200cd8f88764a09690b207d220713047e"
+    sha256 cellar: :any,                 arm64_big_sur:  "9ca3ecc527f609cafc0b9a472412492f5b51282e9fccf6e58dac984090d7d720"
+    sha256 cellar: :any,                 ventura:        "f1f99510655243ba2d916a92aa563237d4ace3c1b29370a2afa9efd991f0aadf"
+    sha256 cellar: :any,                 monterey:       "0d245580ad94b74c38ec11aa5f83e33d83aba97619abd5c690ea76eac1af3a68"
+    sha256 cellar: :any,                 big_sur:        "9d09b745c1ae51d5b70e41136e1e30d235b92452a21b58d6c02415f8e9061341"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "934d024cda394a46c628fca8a47df186a6776bd432837d918cc74d981a417c7b"
   end
 
   depends_on "rust" => :build
@@ -58,8 +58,8 @@ class OciCli < Formula
   end
 
   resource "oci" do
-    url "https://files.pythonhosted.org/packages/87/b6/1945061a62ad9763e70415cf96b2eb4b2b31bca82c4ead439d408c76435b/oci-2.95.0.tar.gz"
-    sha256 "bed3de3e0ffcd8f0dac2ae617833223d2efb4afa02cbc082a52d5587e8459804"
+    url "https://files.pythonhosted.org/packages/ea/aa/926ab0f8911242c9d431c41afd791161c51b3746ed7396697784831b6b5c/oci-2.96.1.tar.gz"
+    sha256 "cd7eef96cbd25049b1c4b42582ecb7f55902cb293f2a7db3e9fe5d9c12aea998"
   end
 
   resource "prompt-toolkit" do
@@ -73,8 +73,8 @@ class OciCli < Formula
   end
 
   resource "pyOpenSSL" do
-    url "https://files.pythonhosted.org/packages/af/6e/0706d5e0eac08fcff586366f5198c9bf0a8b46f0f45b1858324e0d94c295/pyOpenSSL-23.0.0.tar.gz"
-    sha256 "c1cc5f86bcacefc84dada7d31175cae1b1518d5f60d3d0bb595a67822a868a6f"
+    url "https://files.pythonhosted.org/packages/8f/72/f1d9e92f5d3a58aba3b71ad512de19eb9f82e7b98795662bf7b796be71e5/pyOpenSSL-23.1.1.tar.gz"
+    sha256 "841498b9bec61623b1b6c47ebbc02367c07d60e0e195f19790817f10cc8db0b7"
   end
 
   resource "python-dateutil" do
@@ -83,8 +83,8 @@ class OciCli < Formula
   end
 
   resource "pytz" do
-    url "https://files.pythonhosted.org/packages/03/3e/dc5c793b62c60d0ca0b7e58f1fdd84d5aaa9f8df23e7589b39cc9ce20a03/pytz-2022.7.1.tar.gz"
-    sha256 "01a0681c4b9684a28304615eba55d1ab31ae00bf68ec157ec3708a8182dbbcd0"
+    url "https://files.pythonhosted.org/packages/55/71/cb1b0a0035cf479eaf05109ea830323af66d48197bfc759a018f94acc3c4/pytz-2023.2.tar.gz"
+    sha256 "a27dcf612c05d2ebde626f7d506555f10dfc815b3eddccfaadfc7d99b11c9a07"
   end
 
   resource "PyYAML" do

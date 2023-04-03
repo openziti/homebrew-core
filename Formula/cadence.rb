@@ -1,24 +1,27 @@
 class Cadence < Formula
   desc "Resource-oriented smart contract programming language"
   homepage "https://github.com/onflow/cadence"
-  url "https://github.com/onflow/cadence/archive/v0.36.0.tar.gz"
-  sha256 "6f14e98eade0c9bed77ca79bb00b2706fea1ccf83a06a1fbd739d98f96af038f"
+  url "https://github.com/onflow/cadence/archive/v0.38.0.tar.gz"
+  sha256 "a4deabda542fe82c50243dbaaea2cad69673e9aabdf7fe928ef718a0262ef171"
   license "Apache-2.0"
   head "https://github.com/onflow/cadence.git", branch: "master"
 
+  # Upstream uses GitHub releases to indicate that a version is released
+  # (there's also sometimes a notable gap between when a version is tagged and
+  # and the release is created), so the `GithubLatest` strategy is necessary.
   livecheck do
     url :stable
-    regex(/^v?(\d+(?:\.\d+)+)$/i)
+    strategy :github_latest
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "e4fd3483c645a4567e32c0199e5c9cc08800490acdea29e423f111518a9e0f08"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "e8f92b5232c1e1e2d353e70eb78ce3641373ab03637df75ed2e41915126b8eff"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5f97de3f5400d5fbbb7a21ddb86bed581bfaceecb2721ae63157f116c5ecdc92"
-    sha256 cellar: :any_skip_relocation, ventura:        "ffbe29d8fe61aae29f354d7ff8b136bc9548aefe69d5b86cd8bab9978240debd"
-    sha256 cellar: :any_skip_relocation, monterey:       "ed71ad9a9edf0bae936ce67d70c33c4630f4efb7129a99d6f8dde6850284ad8c"
-    sha256 cellar: :any_skip_relocation, big_sur:        "f5d5b279b781869d2f632aad864d5b608ef6d37f85aaaf83b7eec5683556e713"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d94b4befe85bf8353e3b4d86d963940f04dd59dc5e5dc945dcdd12100abdbd42"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "86f94423225063ea8deb4443d324897b525bf18d294e6732c2d6bc13a8178fe5"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "44abd42114c00f8bab3c4e261460ed8e8ad453a8d22f83fb39cf85829c2907a6"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ed3946898b54adc36d1e09d9acbf5b57edb93055a1f380de4ecd8a4494a8ec73"
+    sha256 cellar: :any_skip_relocation, ventura:        "1fcfc1b27598b9c2f700dfb12191b4da8d3ebb82debd5cfe99f57e517f128f1e"
+    sha256 cellar: :any_skip_relocation, monterey:       "712d34b1751416c40df4c18f2a43e689b42e3e09d7d405b2e0445a451c25929f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b6176331ea500518531721100efe677c17e4163b500f72358a5870974e7a937f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "30c2c6f57198e6a313c10997b89af322036f2e954ab09e251a43b0022dcabeb7"
   end
 
   depends_on "go" => :build

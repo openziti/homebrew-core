@@ -1,26 +1,25 @@
 class Mbedtls < Formula
   desc "Cryptographic & SSL/TLS library"
   homepage "https://tls.mbed.org/"
-  url "https://github.com/Mbed-TLS/mbedtls/archive/mbedtls-3.3.0.tar.gz"
-  sha256 "a22ff38512697b9cd8472faa2ea2d35e320657f6d268def3a64765548b81c3ec"
+  url "https://github.com/Mbed-TLS/mbedtls/archive/mbedtls-3.4.0.tar.gz"
+  sha256 "a5dac98592b1ac2232de0aed8f4ee62dffaa99e843e6f41dca2958095c737afd"
   license "Apache-2.0"
   head "https://github.com/Mbed-TLS/mbedtls.git", branch: "development"
 
   livecheck do
     url :stable
-    strategy :github_latest
     regex(%r{href=.*?/tag/(?:mbedtls[._-])?v?(\d+(?:\.\d+)+)["' >]}i)
+    strategy :github_latest
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_ventura:  "75fae44abe3175d39a82a1c138459ea33fa6e6b62ef515f14271967a07f3824a"
-    sha256 cellar: :any,                 arm64_monterey: "68f6114531bdd17099a5d221920ef82ac358b5678c456f8d167b9405e5b31e70"
-    sha256 cellar: :any,                 arm64_big_sur:  "7a1b70f3d34628213b037c908777aca1a67ffb24cda8121abfc1f95cd11396b7"
-    sha256 cellar: :any,                 ventura:        "7c0052d3fa0e301750d84e9a7b04a4b1162807f24adca123ada45f20e60d4359"
-    sha256 cellar: :any,                 monterey:       "dd2c1c332beceb70c109653b2ce23561bd8d8b3cd057e3c73638847f01e7b6ea"
-    sha256 cellar: :any,                 big_sur:        "87e14b2db21d3a1f97c00e9b725d5b6ae29f7a3d3afb72b7f017c7af5d33ce72"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7837ee52a3ab9f96358106e9fdd881d753ee82e97312c3b8be667e743708e3ec"
+    sha256 cellar: :any,                 arm64_ventura:  "cceffba500502626f1dccbdc121e26a16595130d85299227254cf8ed52a73ccf"
+    sha256 cellar: :any,                 arm64_monterey: "0c692684c712798cb6f27ddaecf1b8e035071be7d02dc1d12e5d117c11db93d0"
+    sha256 cellar: :any,                 arm64_big_sur:  "367067a0ee05d791efb5fa42e0a5f5f7762e2891e9bb7ad42aa404ee9c37f5ec"
+    sha256 cellar: :any,                 ventura:        "6be8fe0a38baec5e18a59eb871027dbf445eb3efdb458ed3962df73de3bd8056"
+    sha256 cellar: :any,                 monterey:       "20052ab98c30a9e05f39baa991e192b7139d8de0b8e4f813d601411935e21fae"
+    sha256 cellar: :any,                 big_sur:        "82d92f3edefc4320a5d032672f19b407bd0c3bc634a00cd6e2e637702423f4a0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7e1d4d8fc02d527bcb84c48688baed7840b127b43db79d4c4399829957328337"
   end
 
   depends_on "cmake" => :build
@@ -32,6 +31,8 @@ class Mbedtls < Formula
       s.gsub! "//#define MBEDTLS_THREADING_PTHREAD", "#define MBEDTLS_THREADING_PTHREAD"
       # allow use of mutexes within mbed TLS
       s.gsub! "//#define MBEDTLS_THREADING_C", "#define MBEDTLS_THREADING_C"
+      # enable DTLS-SRTP extension
+      s.gsub! "//#define MBEDTLS_SSL_DTLS_SRTP", "#define MBEDTLS_SSL_DTLS_SRTP"
     end
 
     system "cmake", "-S", ".", "-B", "build",

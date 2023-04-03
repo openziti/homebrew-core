@@ -1,20 +1,22 @@
 class Evince < Formula
   desc "GNOME document viewer"
   homepage "https://wiki.gnome.org/Apps/Evince"
-  url "https://download.gnome.org/sources/evince/43/evince-43.1.tar.xz"
-  sha256 "6d75ca62b73bfbb600f718a098103dc6b813f9050b9594be929e29b4589d2335"
+  url "https://download.gnome.org/sources/evince/44/evince-44.1.tar.xz"
+  sha256 "15afd3bb15ffb38fecab34c23350950ad270ab03a85b94e333d9dd7ee6a74314"
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 arm64_ventura:  "4663c8637d9de02308b1e65a0f71570cf95883ae5c560374e44859e18a5a0f99"
-    sha256 arm64_monterey: "7675f40d279cf544e0df36155184b54d244f0c9cb8970a7a9f9e767d46f94f44"
-    sha256 arm64_big_sur:  "ca3a9d32aaf0765e6e941d336b602123c464086fd308f2fad8a5f53b094f8564"
-    sha256 ventura:        "f3c27dacdab6783fc06fad4cdbc548ffe8774e5671d2b557483574854f053f65"
-    sha256 monterey:       "ac1e5a9f93686eee264c0567fb477271b40f1b9d0043ac629b7b2407b92ba264"
-    sha256 big_sur:        "2d70f1a55d9d65e7309aea7986cb2ef66df699421461a254e650e000889a5684"
-    sha256 x86_64_linux:   "7424c6e6d75d8eeb2c9bf302d360bc35c3fea37aa0a535e5099fbb899309b91a"
+    sha256 arm64_ventura:  "3b40a2075b5464aa3d80713c710febd13f54de4b6cd3f00281b7d12079798c22"
+    sha256 arm64_monterey: "287cbec787ea923e100d5f4494e119414a3e8cfbb5b5d6a899083948665d726f"
+    sha256 arm64_big_sur:  "b7a1f682f691bd39b2329589261bb4cba0b03f5b848addd2075e7d4045f02f6e"
+    sha256 ventura:        "68aa40e7332c4c25f95d821ef840d387cb75d744213fd1933a43611a747c859e"
+    sha256 monterey:       "f2e38569fefce2c2c470336d7cce6f61c24f75408fd03401b3fe7b2267d4ffb5"
+    sha256 big_sur:        "37e4a33300fd3089433ab5daed5659fd5b4da958b908cc09aa36eb61268b3e01"
+    sha256 x86_64_linux:   "4800ea5180ab01fe6a427d171e69471367ccd8c51cb2e9286b198d4d455afe61"
   end
 
+  depends_on "desktop-file-utils" => :build # for update-desktop-database
+  depends_on "gettext" => :build # for msgfmt
   depends_on "gobject-introspection" => :build
   depends_on "itstool" => :build
   depends_on "meson" => :build

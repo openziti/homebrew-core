@@ -200,7 +200,7 @@
     "exclude_packages": ["six"]
   },
   "dooit": {
-    "exclude_packages": ["six", "PyYAML", "virtualenv"]
+    "exclude_packages": ["six", "PyYAML", "virtualenv", "Pygments", "typing-extensions"]
   },
   "dstack": {
     "exclude_packages": ["six", "PyYAML", "typing-extensions"]
@@ -246,7 +246,7 @@
       "numpy", "pillow", "PyYAML", "yamllint", "pathspec", "fonttools", "Brotli",
       "ipython", "appnope", "asttokens", "backcall", "decorator", "executing", "jedi",
       "matplotlib-inline", "parso", "pexpect", "pickleshare", "prompt-toolkit", "ptyprocess",
-      "pure-eval", "Pygments", "six", "stack-data", "traitlets", "wcwidth"
+      "pure-eval", "Pygments", "six", "stack-data", "traitlets", "wcwidth", "typing-extensions"
     ],
     "extra_packages": ["wheel"]
   },
@@ -356,6 +356,9 @@
   "keepkey-agent": {
     "exclude_packages": ["six", "docutils"]
   },
+  "keyring": {
+    "exclude_packages": ["cffi", "pycparser"]
+  },
   "khal": {
     "exclude_packages": ["six"]
   },
@@ -382,7 +385,7 @@
     "exclude_packages": ["six", "tabulate", "Pygments"]
   },
   "localstack": {
-    "exclude_packages": ["six", "tabulate", "PyYAML", "Pygments"]
+    "exclude_packages": ["cffi", "six", "tabulate", "pycparser", "PyYAML", "Pygments"]
   },
   "locust": {
     "exclude_packages": ["six", "typing-extensions"]
@@ -457,7 +460,7 @@
     "exclude_packages": ["six"]
   },
   "ocrmypdf": {
-    "exclude_packages": ["pillow"]
+    "exclude_packages": ["pillow", "pycparser"]
   },
   "onlykey-agent": {
     "exclude_packages": ["six", "Cython"]
@@ -508,7 +511,7 @@
     "exclude_packages": ["PyYAML"]
   },
   "pocsuite3": {
-    "exclude_packages": ["six"]
+    "exclude_packages": ["six", "PyYAML"]
   },
   "poetry": {
     "exclude_packages": ["six", "virtualenv"]
@@ -523,7 +526,7 @@
     "exclude_packages": ["six"]
   },
   "prowler": {
-    "exclude_packages": ["six", "tabulate", "typing-extensions", "PyYAML"]
+    "exclude_packages": ["cffi", "pycparser", "six", "tabulate", "typing-extensions", "PyYAML"]
   },
   "ptpython": {
     "exclude_packages": ["Pygments"]

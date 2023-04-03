@@ -1,25 +1,24 @@
 class DockerCompose < Formula
   desc "Isolated development environments using Docker"
   homepage "https://docs.docker.com/compose/"
-  url "https://github.com/docker/compose/archive/v2.16.0.tar.gz"
-  sha256 "556dc59075280442128f5b45a8ff37638fb357c2a956bd751dd0ba747c93e71d"
+  url "https://github.com/docker/compose/archive/v2.17.2.tar.gz"
+  sha256 "d6e6de858ecdb0104991c86c66dde5dd4fb6a1160d707308d8ad3167450c8094"
   license "Apache-2.0"
   head "https://github.com/docker/compose.git", branch: "v2"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "ccf0618e16228172792903be297f51a6db9d72e7b0a61cc055cf9ccc19cdd3b9"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "7fb406ad9829e3971564a9a7322a717221bbd0e9d9424066d4f3bfa61b4c2308"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2f986022ad2314dc87e805b90cb9963bcd3ccd2a187e7f8feee5e7cf7a1ad222"
-    sha256 cellar: :any_skip_relocation, ventura:        "769bedbe0d94a459fcbba22cbf955538acb72faa3973995553d4c06d9554a1f7"
-    sha256 cellar: :any_skip_relocation, monterey:       "432c69ace84093350a8dee7a193b62cde7472b8a61d18a688d6a741f67cefa89"
-    sha256 cellar: :any_skip_relocation, big_sur:        "59da00513d74ae4b6f6b93b2d49db8565ea3c3b8906678154b695a71c5b3bcf6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6d8a0886a7a289b49f994379b7dcbfcf826392ad3d87a065a0bc7626892cb3a3"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "439df86d94fc88f134213b168381c46f13f4f196fc48e94b99df1011336f7cd9"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "678b6fa369a7f0c8b5caaf67c7136a8b4573fb4c8c42e81d7e2929ba2af4b1d9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6e7deab195d41c1f5d8dfa04070e21001af187d0dcf7b3f8b58ca61adefa879c"
+    sha256 cellar: :any_skip_relocation, ventura:        "7723f2e2b124e798e5c7fed364788d02143c7b015a09825550a4a3cdfbd92801"
+    sha256 cellar: :any_skip_relocation, monterey:       "cb504e6144289a08d0250be4251fcd05bce2cd260b633f179c55b241ed278811"
+    sha256 cellar: :any_skip_relocation, big_sur:        "01973bc69480f9228747b52ff1377542511e7d66688a9fd93d30627dfda7fbb0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "865d7635031c79142c76c597436ef6891ff875d7e744ee2a33384856f2cc08c5"
   end
 
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = "0"
     ldflags = %W[
       -s -w
       -X github.com/docker/compose/v2/internal.Version=#{version}

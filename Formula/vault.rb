@@ -2,8 +2,8 @@ class Vault < Formula
   desc "Secures, stores, and tightly controls access to secrets"
   homepage "https://vaultproject.io/"
   url "https://github.com/hashicorp/vault.git",
-      tag:      "v1.13.0",
-      revision: "a4cf0dc4437de35fce4860857b64569d092a9b5a"
+      tag:      "v1.13.1",
+      revision: "4472e4a3fbcc984b7e3dc48f5a8283f3efe6f282"
   license "MPL-2.0"
   head "https://github.com/hashicorp/vault.git", branch: "main"
 
@@ -13,13 +13,13 @@ class Vault < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "5e2a661e9fb868ab767d7d27f86e8ff42e39e93d44b994f92970d208f7459623"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "6337f6e8569b48c355ef041835892cd3bf3cccf424fe126334b8dcab9bb41e73"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d15325982de1b160d41167707aca87366ee0d46c08ee78f1e79cc929d83a304c"
-    sha256 cellar: :any_skip_relocation, ventura:        "559e4e520dff5044784a9702ad88114882b4b20e54e234872ecc1bc7ef33421c"
-    sha256 cellar: :any_skip_relocation, monterey:       "03bcf2dfcb60960643cefa2bcda303893f6ffa18473e1387de66789e204ac671"
-    sha256 cellar: :any_skip_relocation, big_sur:        "76864e7f2620eaa6e13aeacc278d16756cd9feadba4232f7cac1fec3a88e8af8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2725d3a2a5928ff094d09742a446da13ad8d067bdf91206c056d6687ff470235"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "baba4a8b5325142f7ef5833e4cf074c2d81681c4c810b9f86fcaa582d7369867"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "739c1eeedb7f95e9dc1391fce3b2ae65e7eae0c9c7e94c8a9692bb823a36cfa1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "abaf2ad9b4bc134758c845520996d97e1b10c85b56f52955b515250de496970b"
+    sha256 cellar: :any_skip_relocation, ventura:        "7a1ac30045fd5c8f6ed881e57b416a6e0da2e59e71301fb3b44733ef3574837e"
+    sha256 cellar: :any_skip_relocation, monterey:       "1c8372e3021e297c231085f1ebb06446db1ac0162e7c2125ab44c8e985905fa1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "7b285f3284af554be971ef4f7d45af791ebd0423bfeacb3be9bab0d85c56cb71"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0de2417ffe5cb7a0223f929d8778baec078e864350e93fb0b982c00f5a251b2e"
   end
 
   depends_on "go" => :build
@@ -32,7 +32,7 @@ class Vault < Formula
     # Needs both `npm` and `python` in PATH
     ENV.prepend_path "PATH", Formula["node@18"].opt_libexec/"bin"
     ENV.prepend_path "PATH", "#{ENV["GOPATH"]}/bin"
-    ENV["PYTHON"] = "python3.10"
+    ENV["PYTHON"] = "python3.11"
     system "make", "bootstrap", "static-dist", "dev-ui"
     bin.install "bin/vault"
   end

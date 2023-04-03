@@ -1,9 +1,10 @@
 class Micromamba < Formula
   desc "Fast Cross-Platform Package Manager"
   homepage "https://github.com/mamba-org/mamba"
-  url "https://github.com/mamba-org/mamba/archive/refs/tags/micromamba-1.3.1.tar.gz"
-  sha256 "af66b79bc6b9673209e92b6ce6e52a21a79c55e86960a9d5bb10691cf2b4e327"
+  url "https://github.com/mamba-org/mamba/archive/refs/tags/micromamba-1.4.1.tar.gz"
+  sha256 "4ec974a6fe95666e9e275cd76b8a2ffb26b36bb99957c88eef6c7ffc57fd4317"
   license "BSD-3-Clause"
+  head "https://github.com/mamba-org/mamba.git", branch: "main"
 
   livecheck do
     url :stable
@@ -11,13 +12,13 @@ class Micromamba < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "34c49e5953ba750e7a1d920aa125caf8944965e35a6a831eea9590a2d962bb79"
-    sha256 cellar: :any,                 arm64_monterey: "564303c0497bcf4764334ba751a105427e23d83b2ffcdad4204fe3f4f02bbf73"
-    sha256 cellar: :any,                 arm64_big_sur:  "5006da53d4a01d66414b71a6e0cf4ed70758c78fc3d8e22cde412517c2843ff3"
-    sha256 cellar: :any,                 ventura:        "5cd419a7df6ef506d7f6a6dda48c8d39c4f8dbfe6d67f556b5ed9b9558c4eec4"
-    sha256 cellar: :any,                 monterey:       "56b5aa1f0fa369a9376b8c8cbc349c5cdbbb8e59a9ac952c6cba92e400559bd0"
-    sha256 cellar: :any,                 big_sur:        "bcf66bf9b1504317d5463bbb9cddace8ac6fa56ac34b52f0145afbeeb8633a61"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fb039819a0dfe93f04f57e4cb60c4692cad62b3b4bef54ebadfe28efc5da7570"
+    sha256 cellar: :any,                 arm64_ventura:  "7343a1d6b36eebd9dc53e422d46b00174b93a2feb142ea5cc359ade13fa052b2"
+    sha256 cellar: :any,                 arm64_monterey: "a290ddbbca909dd4ac964279df0f38498e28484f5ac3f55dfce622cb10954adc"
+    sha256 cellar: :any,                 arm64_big_sur:  "1a0838d99f4881b6e424d032127b875c03e78a45ab9e902611adc1ce94d15624"
+    sha256 cellar: :any,                 ventura:        "2b9bb318b092c513070e7a50b80b5c4c354e0f79d300d466eae510ef19d3fe92"
+    sha256 cellar: :any,                 monterey:       "04f18c4be4d2765ef4f9611fb517facfe0e5a1796ecb8447c026c000095c3944"
+    sha256 cellar: :any,                 big_sur:        "5ebb9a86242de9bc44be3ff31f2e536535331171304cee027dae367cc64ac72e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aa3ead5d50c7cbb3e2261af762d58c93826135226d0409d3c081aaa75fd6f8c5"
   end
 
   depends_on "cli11" => :build

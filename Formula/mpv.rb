@@ -4,22 +4,22 @@ class Mpv < Formula
   url "https://github.com/mpv-player/mpv/archive/refs/tags/v0.35.1.tar.gz"
   sha256 "41df981b7b84e33a2ef4478aaf81d6f4f5c8b9cd2c0d337ac142fc20b387d1a9"
   license :cannot_represent
+  revision 1
   head "https://github.com/mpv-player/mpv.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 arm64_ventura:  "689de14813b3c3a78a422a16caeaf50f3b87d28ede6a5b55a86ec9959b6297e5"
-    sha256 arm64_monterey: "9b10b04f204965195a78cfc4280573c4f5cbf959ac217fbf4143789cd92bb0e5"
-    sha256 arm64_big_sur:  "857858c19c5351702c61e3a3a981ff210df88cacacdf822fadfae962d4d212ca"
-    sha256 ventura:        "c837585624867487c3daa54eed45f650d87b932f00cd86488b7b496eeb2b1562"
-    sha256 monterey:       "f83de70b1617563029baed7053c70cb60190fa735af0d7dda5aa7362209760a5"
-    sha256 big_sur:        "f85d10395e7c7a3ba7281230dd02d0420368391dfa4c6b94fef0c6da9f6a2c95"
-    sha256 x86_64_linux:   "52707f5b23a76a0975d1e4d9462700075e3abda67665d2222ca0c2e3a4873d91"
+    sha256 arm64_ventura:  "231980d52bb3d8dc1e496dc00cb4a601d48219db303fb8f75a5f95b68a246b36"
+    sha256 arm64_monterey: "e71fd837920adb77b0bc55016dfa1d0a76f71bcba43797a45f1c30c33b31c3ec"
+    sha256 arm64_big_sur:  "12147706325bb13ce4939f3ba7d02edc232a552feb529fa9169ede577fe74faf"
+    sha256 ventura:        "ae4d24028370346e03b423b5081ce826a1c01b2c17c838e53ce0ddfabd72351f"
+    sha256 monterey:       "1b79eae6454c427bc3d0b95fe512ff727009dc47e9f2ff1029bd6139e68743f4"
+    sha256 big_sur:        "5e5cc7e84d6c1e20a5107ca77e8d14729f299eb941a0b69cf48f5f912f3be8ac"
+    sha256 x86_64_linux:   "516b4e12e778b8e157b03821ab308e41a9881d58cd5a156181f4f5eb7d5d54c3"
   end
 
   depends_on "docutils" => :build
   depends_on "meson" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkg-config" => [:build, :test]
   depends_on xcode: :build
   depends_on "ffmpeg"
   depends_on "jpeg-turbo"
@@ -64,6 +64,17 @@ class Mpv < Formula
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"
 
+    if OS.mac?
+      # `pkg-config --libs mpv` includes libarchive, but that package is
+      # keg-only so it needs to look for the pkgconfig file in libarchive's opt
+      # path.
+      libarchive = Formula["libarchive"].opt_prefix
+      inreplace lib/"pkgconfig/mpv.pc" do |s|
+        s.gsub!(/^Requires\.private:(.*)\blibarchive\b(.*?)(,.*)?$/,
+                "Requires.private:\\1#{libarchive}/lib/pkgconfig/libarchive.pc\\3")
+      end
+    end
+
     bash_completion.install "etc/mpv.bash-completion" => "mpv"
     zsh_completion.install "etc/_mpv.zsh" => "_mpv"
   end
@@ -71,5 +82,8 @@ class Mpv < Formula
   test do
     system bin/"mpv", "--ao=null", "--vo=null", test_fixtures("test.wav")
     assert_match "vapoursynth", shell_output(bin/"mpv --vf=help")
+
+    # Make sure `pkg-config` can parse `mpv.pc` after the `inreplace`.
+    system "pkg-config", "mpv"
   end
 end

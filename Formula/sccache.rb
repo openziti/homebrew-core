@@ -1,8 +1,8 @@
 class Sccache < Formula
   desc "Used as a compiler wrapper and avoids compilation when possible"
   homepage "https://github.com/mozilla/sccache"
-  url "https://github.com/mozilla/sccache/archive/v0.3.3.tar.gz"
-  sha256 "65275a355e53cd1056768e1cbaad2f48bbaae0917be90b8d4e08128b682a29b3"
+  url "https://github.com/mozilla/sccache/archive/v0.4.1.tar.gz"
+  sha256 "b77fb9b9cf67591cb443bc6191c7917e335f8050a3ec477e27104b1e6c99be2b"
   license "Apache-2.0"
   head "https://github.com/mozilla/sccache.git", branch: "main"
 
@@ -12,13 +12,13 @@ class Sccache < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "794a4752acf8e95331c3c10bc9103595ffc40641c2be8b6d9a228bfd607a5bfb"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "84a5e5e59a183663ba3d343c1f08fcd70da4f03fa0c15283923eb662044b1607"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "24bfa61de01e9db585c84886671a3773ba7872d45cb45e6d5c48e77f74bfe1ca"
-    sha256 cellar: :any_skip_relocation, ventura:        "59af95cae285d37bca82ab983532bdabad18e7a417028ac9cbf9814ffefde27a"
-    sha256 cellar: :any_skip_relocation, monterey:       "9e73ceaba258e6aa6e4a2e5a07405d6c2d90de90aa09de0354f241f9a7809b1a"
-    sha256 cellar: :any_skip_relocation, big_sur:        "4a1cd85ee1e348804ab9fe9de9179beb22c56ce63c4e31b233fd5b8e63b79b61"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d240a9ca714400e84e13e585464472e35ec105de155a26f98aebc44572ee3591"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "73a89110873e0fc9a9393a2f991c3cc61c036154d951f3638079e150a264a47a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7a057ab8635a6d6000999239b21f056e25a7ea22e1414c79df563a1163d9c679"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a04e30d02b904f92e74723ce62d22a814542850ef7b8d5e1b2fd5b9e1008ddcf"
+    sha256 cellar: :any_skip_relocation, ventura:        "e318a304f08b0b6913f8e88edc9df1421dbc4ff8be0ffcc5d140d4947d637c38"
+    sha256 cellar: :any_skip_relocation, monterey:       "8dbf7d0a194ed4d3be8b6d4d87a2afbd93ef1bd9bb9dbf6d8b36c2d696a0dc5c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b19215fe15f81af77a8cf141211a4407d996a64e0a43ab3d9e5badd6ed745346"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0e07e3d97ddb8a81c39f972a318fbf9787f9f8382d92f49389bb879e0e67c981"
   end
 
   depends_on "rust" => :build
