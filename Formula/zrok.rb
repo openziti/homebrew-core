@@ -37,6 +37,5 @@ class Zrok < Formula
 
     status_output = shell_output("#{bin}/zrok controller validate #{testpath}/ctrl.yml 2>&1")
     assert_match("expiration_timeout = 24h0m0s", status_output)
-    File.delete("#{testpath}/ctrl.yml")
   end
 end
