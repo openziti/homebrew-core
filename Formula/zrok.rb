@@ -24,19 +24,19 @@ class Zrok < Formula
   end
 
   test do
-    ctrl_yml = File.new("/tmp/ctrl.yml", "w")
-    ctrl_yml.puts("v: 2")
-    ctrl_yml.puts("maintenance:")
-    ctrl_yml.puts(" registration:")
-    ctrl_yml.puts("   expiration_timeout: 24h")
-    ctrl_yml.close
+    (testpath/"ctrl.yml").write <<~EOS
+      v: 2
+      maintenance:
+        registration:
+          expiration_timeout: 24h
+    EOS
 
-    version_output = shell_output("#{bin}/zrok --verbose version")
+    version_output = shell_output("#{bin}/zrok version")
     assert_match(version.to_s, version_output)
     assert_match(/[[a-f0-9]{40}]/, version_output)
 
-    status_output = shell_output("#{bin}/zrok controller validate /tmp/ctrl.yml 2>&1")
+    status_output = shell_output("#{bin}/zrok controller validate #{testpath}/ctrl.yml 2>&1")
     assert_match("expiration_timeout = 24h0m0s", status_output)
-    File.delete("/tmp/ctrl.yml")
+    File.delete("#{testpath}/ctrl.yml")
   end
 end
